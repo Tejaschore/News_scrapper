@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MK Trading News</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Styling for links */
+        a {
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #FF6347; /* Tomato color on hover */
+        }
+
+        /* Hover and border styling for news cards */
+        .card {
+            background-color: #1F2937; /* Darker gray for news block */
+            color: white; /* White text color for better contrast */
+            border: 1px solid #374151; /* Dark border to match the background */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.02); /* Slight lift and scale */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        }
+
+        /* News Title Color */
+        .card h3 {
+            color: #34D399; /* Teal color for titles to make them stand out */
+        }
+
+        /* News Description Color */
+        .card p {
+            color: #E5E7EB; /* Lighter gray text color for descriptions */
+        }
+
+        /* News Ticker (Moving Headline) */
+        .news-ticker {
+            white-space: nowrap;
+            overflow: hidden;
+            position: relative;
+            background-color: #2C3E50;
+            color: #ECF0F1;
+            padding: 12px 0;
+            font-size: 18px;
+            font-weight: bold;
+            width: 100%; /* Ensure full width is used */
+            height: 40px; /* Set fixed height for proper space */
+        }
+
+        .news-ticker span {
+            position: absolute;
+            animation: ticker 20s linear infinite; /* Adjust timing for smoother scroll */
+            white-space: nowrap; /* Prevent text from wrapping */
+        }
+
+        @keyframes ticker {
+            0% {
+                transform: translateX(100%); /* Start off-screen to the right */
+            }
+            100% {
+                transform: translateX(-100%); /* End off-screen to the left */
+            }
+        }
+
+        /* Layout of the page with two columns */
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .news-section {
+            flex: 2;
+            background-color: #F9FAFB; /* Slightly off-white background */
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .ad-section {
+            flex: 1;
+            background-color: #34495E;
+            padding: 2rem;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Ensure content fills the space */
+            height: 100%; /* Full height */
+        }
+
+        .ad-ticker {
+            margin-top: 20px;
+        }
+
+        .advertisement-block {
+            margin-top: 30px;
+            flex-grow: 1;
+        }
+
+        .ad-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Updated background color for better contrast */
+        .header-section {
+            background: #2C3E50; /* Darker background for header */
+            color: white; /* Light text color */
+        }
+
+        .breaking-news {
+            background: #E74C3C; /* Bright red background for breaking news */
+            color: white; /* Light text color */
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-100 text-gray-900">
+
+    <!-- Navbar -->
+    <nav class="bg-gray-800 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold">
+                <a href="/" class="hover:text-teal-500">MK Trading </a>
+            </div>
+            <ul class="flex space-x-6">
+                <li><a href="/" class="hover:text-teal-500">Home</a></li>
+                <li><a href="/finance" class="hover:text-teal-500">Finance</a></li>
+                <li><a href="/sports" class="hover:text-teal-500">Sports</a></li>
+                <li><a href="/technology" class="hover:text-teal-500">Technology</a></li>
+                <li><a href="/contact" class="hover:text-teal-500">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="header-section py-8">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold">MK Trading News</h1>
+            <p class="text-xl mt-2">Your Source for the Latest Market Trends & Financial News</p>
+        </div>
+    </header>
+
+    <!-- Moving News Headline -->
+    <div class="news-ticker">
+        <span>Breaking News: The stock market is up 5% today! | Major market changes today in Nifty 50 | Stay updated with the latest trends in global economies.</span>
+    </div>
+
+    <!-- Main Content (Newspaper-like Layout) -->
+    <div class="container mx-auto main-content">
+        
+        <!-- News Section (Left Side) -->
+        <div class="news-section">
+            <!-- Breaking News Section -->
+            <div class="breaking-news p-6 rounded-lg shadow-lg mb-8">
+                <div class="text-center font-bold text-2xl">Breaking News</div>
+                <p class="text-center mt-2 text-lg">Key market updates and financial news.</p>
+            </div>
+
+            <!-- News Categories -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                <!-- Loop to display the news content -->
+                {% for news_item in news %}
+                    <div class="card p-6 rounded-lg hover:shadow-2xl transition-all">
+                        <h3 class="text-xl font-semibold">{{ news_item['Title'] }}</h3>
+                        <p class="text-sm mt-2">{{ news_item['Description'] }}</p>
+                        <p class="text-xs mt-1">{{ news_item['Date'] }} | Source: {{ news_item['Source'] }}</p>
+                        <a href="{{ news_item['Urls'] }}" class="mt-3 inline-block font-bold hover:underline">Read More</a>
+                    </div>
+                {% endfor %}
+            </section>
+
+            <!-- Pagination -->
+            <div class="flex justify-between mt-6">
+                <a href="{{ url_for('index', page_num=page_num - 1) }}" class="text-teal-500 hover:underline {% if page_num == 1 %}hidden{% endif %}">Previous</a>
+                <span class="text-gray-300">Page {{ page_num }} of {{ total_pages }}</span>
+                <a href="{{ url_for('index', page_num=page_num + 1) }}" class="text-teal-500 hover:underline {% if page_num == total_pages %}hidden{% endif %}">Next</a>
+            </div>
+        </div>
+
+        <!-- Advertisement Section (Right Side) -->
+        <div class="ad-section">
+            <div class="text-lg font-semibold mb-4 text-teal-400">Market Updates</div>
+            <div class="bg-gray-900 text-white p-4 rounded-lg mb-6">
+                <div><strong>Nifty 50:</strong> 18,200.50 (+1.5%)</div>
+                <div><strong>S&P 500:</strong> 4,300.75 (+0.9%)</div>
+                <div><strong>Dow Jones:</strong> 33,800.10 (+1.2%)</div>
+            </div>
+
+            <!-- Advertisement Block for MK Trading Academy -->
+            <div class="advertisement-block bg-teal-600 text-white p-4 rounded-lg mb-6">
+                <div class="ad-title">MK Trading Academy</div>
+                <p>Learn trading from experts at MK Trading Academy! Get real-time market updates, tips, and strategies from seasoned professionals.</p>
+                <a href="https://mktradingacademy.in" class="text-teal-200 underline mt-3 block">Visit Our Website</a>
+            </div>
+
+            <!-- Ad Ticker (Moving Advertisement) -->
+            <div class="ad-ticker news-ticker mt-6">
+                <span>Advertisement: Buy stocks in XYZ Corp! | Limited time offer! | Big discount on ABC services! | Stay tuned for more offers!</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 mt-10">
+        <div class="container mx-auto text-center">
+            <!-- Social Media Links -->
+            <div class="mb-4">
+                <a href="https://www.instagram.com/mk_trading_academy" target="_blank" class="text-teal-500 mx-4 hover:underline">Instagram</a>
+                <a href="https://t.me/mktradingacademy" target="_blank" class="text-teal-500 mx-4 hover:underline">Telegram</a>
+                <a href="https://youtube.com/@mktrading_academy" target="_blank" class="text-teal-500 mx-4 hover:underline">YouTube</a>
+            </div>
+
+            <!-- Logo Section -->
+            <div>
+                <img src="https://mktradingacademy.in/assets/img/logomk.PNG" alt="MK Trading Logo" class="mx-auto h-16">
+            </div>
+
+            <p class="mt-4">&copy; 2025 MK Trading News. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

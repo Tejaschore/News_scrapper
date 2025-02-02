@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MK Trading News</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Styling for links */
+        a {
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #38B2AC;
+        }
+
+        /* Hover and border styling for news cards */
+        .card {
+            border: 1px solid #2d3748; /* Add border */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.05); /* More pronounced lift and scale */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Stronger shadow effect */
+        }
+
+        /* News Ticker (Moving Headline) */
+        .news-ticker {
+            white-space: nowrap;
+            overflow: hidden;
+            position: relative;
+            background-color: #153E75;
+            color: white;
+            padding: 12px 0;
+            font-size: 18px;
+            font-weight: bold;
+            width: 100%; /* Ensure full width is used */
+            height: 40px; /* Set fixed height for proper space */
+        }
+
+        .news-ticker span {
+            position: absolute;
+            animation: ticker 20s linear infinite; /* Adjust timing for smoother scroll */
+            white-space: nowrap; /* Prevent text from wrapping */
+        }
+
+        @keyframes ticker {
+            0% {
+                transform: translateX(100%); /* Start off-screen to the right */
+            }
+            100% {
+                transform: translateX(-100%); /* End off-screen to the left */
+            }
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-800 text-gray-200">
+
+    <!-- Navbar -->
+    <nav class="bg-gray-900 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold">
+                <a href="/" class="hover:text-teal-500">MK Trading </a>
+            </div>
+            <ul class="flex space-x-6">
+                <li><a href="/" class="hover:text-teal-500">Home</a></li>
+                <li><a href="/finance" class="hover:text-teal-500">Finance</a></li>
+                <li><a href="/sports" class="hover:text-teal-500">Sports</a></li>
+                <li><a href="/technology" class="hover:text-teal-500">Technology</a></li>
+                <li><a href="/contact" class="hover:text-teal-500">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="gradient-bg text-white py-8">
+        <div class="container mx-auto text-center">
+            <h1 class="text-3xl lg:text-4xl font-bold"> News</h1>
+            <p class="text-lg lg:text-xl mt-2">Stay Updated with the Latest Market Trends and Stock News</p>
+        </div>
+    </header>
+
+    <!-- Moving News Headline -->
+    <div class="news-ticker">
+        <span>Breaking News: The stock market is up 5% today! | Major news impacting global economies | Top financial trends for 2025 | Stay tuned for more updates.</span>
+    </div>
+
+    <!-- Main Content -->
+    <main class="min-h-screen px-6 py-8"> <!-- Ensure content takes full height -->
+        <div class="container mx-auto">
+
+            <!-- Breaking News Section -->
+            <div class="bg-gradient-to-r from-green-500 to-teal-400 text-white p-6 rounded-lg shadow-lg mb-8">
+                <div class="text-center font-bold text-2xl">Breaking News</div>
+                <p class="text-center mt-2 text-lg">Major market updates and financial news. Stay ahead of the curve.</p>
+            </div>
+
+            <!-- News Categories -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                <!-- Loop to display the news content -->
+                {% for news_item in news %}
+                    <div class="card bg-gray-800 p-6 rounded-lg hover:shadow-2xl transition-all">
+                        <h3 class="text-xl font-semibold text-teal-400">{{ news_item['Title'] }}</h3>
+                        <p class="text-sm text-gray-400 mt-2">{{ news_item['Description'] }}</p>
+                        <p class="text-xs text-gray-500 mt-1">{{ news_item['Date'] }} | Source: {{ news_item['Source'] }}</p>
+                        <a href="{{ news_item['Urls'] }}" class="text-teal-500 mt-3 inline-block font-bold hover:underline">Read More</a>
+                    </div>
+                {% endfor %}
+            </section>
+
+            <!-- Pagination -->
+            <div class="flex justify-between mt-6">
+                <a href="{{ url_for('index', page_num=page_num - 1) }}" class="text-teal-500 hover:underline {% if page_num == 1 %}hidden{% endif %}">Previous</a>
+                <span class="text-gray-300">Page {{ page_num }} of {{ total_pages }}</span>
+                <a href="{{ url_for('index', page_num=page_num + 1) }}" class="text-teal-500 hover:underline {% if page_num == total_pages %}hidden{% endif %}">Next</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-6 mt-10">
+        <div class="container mx-auto text-center">
+            <!-- Social Media Links -->
+            <div class="mb-4">
+                <a href="https://www.instagram.com/mk_trading_academy?igsh=b2loNG5kY2dyMDFj" target="_blank" class="text-teal-500 mx-4 hover:underline">Instagram</a>
+                <a href="https://t.me/mktradingacademy" target="_blank" class="text-teal-500 mx-4 hover:underline">Telegram</a>
+                <a href="https://youtube.com/@mktrading_academy?si=v-GZTUOBUNiXX64S" target="_blank" class="text-teal-500 mx-4 hover:underline">YouTube</a>
+            </div>
+
+            <!-- Logo Section -->
+            <div>
+                <img src="https://mktradingacademy.in/assets/img/logomk.PNG" alt="" class="mx-auto h-16">
+            </div>
+
+            <p class="mt-4">&copy; 2025 MK Trading News. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

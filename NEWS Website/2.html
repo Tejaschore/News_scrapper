@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MK Trading News</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Gradient effect for header and sections */
+        .gradient-bg {
+            background: linear-gradient(90deg, #1A365D, #153E75);
+        }
+
+        /* Hover effect for news items */
+        .card:hover {
+            background-color: #2D3748; /* Darken on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-800 text-gray-200">
+
+    <!-- Header -->
+    <header class="gradient-bg text-white py-8">
+        <div class="container mx-auto text-center">
+            <h1 class="text-3xl lg:text-4xl font-bold"> News</h1>
+            <p class="text-lg lg:text-xl mt-2">Stay Updated with the Latest Market Trends and Stock News</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="min-h-screen px-6 py-8">
+        <div class="container mx-auto">
+            <!-- News Categories -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Loop to display the news content -->
+                {% for news_item in news %}
+                    <div class="card bg-gray-800 p-6 rounded-lg shadow-lg border-2 border-gray-700 hover:shadow-2xl transition-all">
+                        <h3 class="text-xl font-semibold text-teal-400">{{ news_item['Title'] }}</h3>
+                        <p class="text-sm text-gray-400 mt-2">{{ news_item['Description'] }}</p>
+                        <p class="text-xs text-gray-500 mt-1">{{ news_item['Date'] }} | Source: {{ news_item['Source'] }}</p>
+                        <p class="text-xs text-gray-500 font-bold mt-1">{{ news_item['Category'] }}</p>
+                        <a href="{{ news_item['Urls'] }}" class="text-teal-500 mt-3 inline-block font-bold hover:underline" target="_blank">Read More</a>
+                    </div>
+                {% endfor %}
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-6 mt-10">
+        <div class="container mx-auto text-center">
+            <!-- Social Media Links -->
+            <div class="mb-4">
+                <a href="https://www.instagram.com/mk_trading_academy?igsh=b2loNG5kY2dyMDFj" target="_blank" class="text-teal-500 mx-4 hover:underline">Instagram</a>
+                <a href="https://t.me/mktradingacademy" target="_blank" class="text-teal-500 mx-4 hover:underline">Telegram</a>
+                <a href="https://youtube.com/@mktrading_academy?si=v-GZTUOBUNiXX64S" target="_blank" class="text-teal-500 mx-4 hover:underline">YouTube</a>
+            </div>
+
+            <!-- Logo Section -->
+            <div>
+                <img src="https://mktradingacademy.in/assets/img/logomk.PNG" alt="" class="mx-auto h-16">
+            </div>
+
+            <p class="mt-4">&copy; 2025 MK Trading News. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
